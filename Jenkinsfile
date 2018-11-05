@@ -14,10 +14,6 @@ pipeline {
         stages {
                 stage('Test') {
                         steps {
-				sh 'echo $NEO4J_USER'
-				sh 'echo $NEO4J_PASSWORD'
-				sh 'echo $NEO4J_URL'
-				sh 'echo $NEO4J_BOLT_URL'
                                 sh 'python /home/neo/main_wrapper.py'
                         }
                 }
