@@ -10,7 +10,7 @@ pipeline {
         stages {
                 stage('Test') {
                         steps {
-                                sh 'python ./main_wrapper.py'
+                                sh 'python /home/neo/main_wrapper.py'
                         }
                 }
         }
