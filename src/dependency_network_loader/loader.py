@@ -42,11 +42,11 @@ def start(main):
     auth = basic_auth(os.getenv('NEO4J_USER'), os.getenv('NEO4J_PASSWORD'))
 
     print(callstack)
-    #neo_is_down = True
-    #while(neo_is_down):
-    #    neo_is_down = not _is_neo_up(neo_url)
-    #    print(neo_is_down)
-    #    time.sleep(1)
+    neo_is_down = True
+    while(neo_is_down):
+        neo_is_down = not _is_neo_up(neo_url)
+        print(neo_is_down)
+        time.sleep(1)
 
     with GraphDatabase.driver(bolt_url, auth=auth) as driver:
         with driver.session() as session:
