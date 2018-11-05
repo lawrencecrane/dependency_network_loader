@@ -40,6 +40,8 @@ def start(main):
     bolt_url = os.getenv('NEO4J_BOLT_URL')
     auth = basic_auth(os.getenv('NEO4J_USER'), os.getenv('NEO4J_PASSWORD'))
 
+    print(neo_url, bolt_url, auth)
+
     neo_is_down = True
     while(neo_is_down):
         neo_is_down = not _is_neo_up(neo_url)
