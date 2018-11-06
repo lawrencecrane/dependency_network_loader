@@ -3,8 +3,8 @@ pipeline {
                 dockerfile {
                       args '-e NEO4J_USER=$NEO4J_USER \
                       	-e NEO4J_PASSWORD=$NEO4J_PASSWORD \
-                      	-e NEO4J_URL=$NEO4J_URL \
-                      	-e NEO4J_BOLT_URL=$NEO4J_BOLT_URL'
+                      	-e NEO4J_URL=http://localhost:7474 \
+                      	-e NEO4J_BOLT_URL=bolt://localhost:7687'
                 }
         }
         environment {
