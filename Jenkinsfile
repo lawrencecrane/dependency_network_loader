@@ -1,10 +1,12 @@
 pipeline {
         agent {
                 dockerfile {
-                      args '-e NEO4J_USER=$NEO4J_USER \
+                      args '-p 7474:7474 \
+			-p 7687:7687 \
+			-e NEO4J_USER=$NEO4J_USER \
                       	-e NEO4J_PASSWORD=$NEO4J_PASSWORD \
-                      	-e NEO4J_URL=http://localhost:7474 \
-                      	-e NEO4J_BOLT_URL=bolt://localhost:7687'
+                      	-e NEO4J_URL=http://172.17.72.179:7474 \
+                      	-e NEO4J_BOLT_URL=bolt://172.17.72.179:7687'
                 }
         }
         environment {
