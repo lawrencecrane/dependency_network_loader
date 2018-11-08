@@ -9,7 +9,7 @@ volumes: [
   node(label) {
     stage('Build Docker image') {
       container('docker') {
-        sh "docker build -t neopython_dataloader ."
+        sh "ls -al"
       }
     }
   }
