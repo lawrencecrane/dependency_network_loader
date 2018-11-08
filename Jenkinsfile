@@ -3,8 +3,8 @@ def label = "worker-${UUID.randomUUID().toString()}"
 podTemplate(label: label, containers: [
   containerTemplate(name: 'python', image: 'python:3.7-slim', command: 'cat', ttyEnabled: true,
 		    envVars: [
-            	      envVar(key: 'NEO4J_URL', value: 'http://neodb-service.default.svc.cluster.local:7474'),
-            	      envVar(key: 'NEO4J_BOLT_URL', value: 'bolt://neodb-service.default.svc.cluster.local:7697'),
+            	      envVar(key: 'NEO4J_URL', value: 'http://neodb-service:7474'),
+            	      envVar(key: 'NEO4J_BOLT_URL', value: 'bolt://neodb-service:7697'),
 		      secretEnvVar(key: 'NEO4J_USER', secretName: 'neo4j-auth-secret', secretKey: 'neo4j-user'),
 	              secretEnvVar(key: 'NEO4J_PASSWORD', secretName: 'neo4j-auth-secret', secretKey: 'neo4j-pw')
         	    ]),
