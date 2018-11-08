@@ -13,7 +13,7 @@ volumes: [
       def shortGitCommit = "${gitCommit[0..10]}"
     stage('Build Docker image') {
       container('docker') {
-        sh "ls -al"
+        sh "docker build -t neopython_loader ."
       }
     }
   }
