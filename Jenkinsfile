@@ -20,10 +20,6 @@ volumes: [
       container('python') {
         sh "pip install --upgrade pip & pip install neo4j-driver"
         sh "python ./src/tmp.py"
-        sh "echo $NEO4J_URL"
-        sh "echo $NEO4J_BOLT_URL"
-        sh "echo $NEO4J_USER"
-        sh "echo $NEO4J_PASSWORD"
       }
     }
     stage('Build Docker image') {
