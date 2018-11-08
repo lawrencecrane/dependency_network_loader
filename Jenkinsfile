@@ -16,6 +16,8 @@ volumes: [
       container('python') {
         sh "pip install --upgrade pip & pip install neo4j-driver"
         sh "python ./src/tmp.py"
+        sh "apt-get update && apt-get install -y curl"
+        sh "curl http://neodb-service:7474"
       }
     }
     stage('Build Docker image') {
