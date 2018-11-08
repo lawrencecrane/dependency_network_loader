@@ -14,21 +14,6 @@ spec:
   containers:
   - name: python
     image: python:3.7-slim
-    env:
-      - name: NEO4J_URL
-        value: http://neodb-service:7474
-      - name: NEO4J_BOLT_URL
-        value: bolt://neodb-service:7697
-      - name: NEO4J_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: neo4j-auth-secret
-            key: neo4j-pw
-      - name: NEO4J_USER
-        valueFrom:
-          secretKeyRef:
-            name: neo4j-auth-secret
-            key: neo4j-user
     command:
     - cat
     tty: true
