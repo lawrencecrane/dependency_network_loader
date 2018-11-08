@@ -1,31 +1,18 @@
 def label = "worker-${UUID.randomUUID().toString()}"
 
-podTemplate(label: label, yaml: """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: python
-spec:
-  volumes:
-  - name: docker_socket
-    hostPath:
-      path: /var/run/docker.sock
-  containers:
-  - name: python
-    image: python:3.7-slim
-    command:
-    - cat
-    tty: true
-  - name: docker
-    image: docker:latest
-    volumeMounts:
-    - name: docker_socket
-      mountPath: /var/run/docker.sock
-    command:
-    - cat
-    tty: true
-""") {
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'python', image: 'python:3.7-slim', command: 'cat', ttyEnabled: true
+		    envVars: [
+            	      envVar(key: 'NEO4J_URL', value: 'http://neodb-service.default.svc.cluster.local:7474'),
+            	      envVar(key: 'NEO4J_BOLT_URL', value: 'bolt://neodb-service.default.svc.cluster.local:7697'),
+            	      secretEnvVar(key: 'NEO4J_USER', secretName: 'neo4j-auth-secret', secretKey: 'neo4j-user'),
+            	      secretEnvVar(key: 'NEO4J_PASSWORD', secretName: 'neo4j-auth-secret', secretKey: 'neo4j-pw')
+        	    ]),
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+],
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+]) {
   node(label) {
       def repo = checkout scm
       def gitCommit = repo.GIT_COMMIT
@@ -35,8 +22,10 @@ spec:
       container('python') {
         sh "pip install --upgrade pip & pip install neo4j-driver"
         sh "python ./src/tmp.py"
-        sh "apt-get update && apt-get install -y curl"
-	sh "curl neodb-service.default.svc.cluster.local:7474"
+        sh "echo $NEO4J_URL"
+        sh "echo $NEO4J_BOLT_URL"
+        sh "echo $NEO4J_USER"
+        sh "echo $NEO4J_PASSWORD"
       }
     }
     stage('Build Docker image') {
