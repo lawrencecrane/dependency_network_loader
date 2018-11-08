@@ -1,19 +1,16 @@
-pipeline {
-        agent {
-  		kubernetes {
-			label 'neo_python'
-			defaultContainer 'jnlp'
-			yamlFile 'neopython_pod.yaml'
-		}
-        }
-        environment {
-                CI = 'true'
-        }
-        stages {
-                stage('Test') {
-                        steps {
-                                sh 'python /home/neo/main_wrapper.py'
-                        }
-                }
-        }
+def label = "worker-${UUID.randomUUID().toString()}"
+
+podTemplate(label: label, containers: [
+  containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+],
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+]) {
+  node(label) {
+    stage('Build Docker image') {
+      container('docker') {
+        sh "docker build -t neopython_dataloader ."
+      }
+    }
+  }
 }
