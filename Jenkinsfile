@@ -21,7 +21,7 @@ volumes: [
     stage('Test') {
       container('python') {
         sh "pip install --upgrade pip & pip install neo4j-driver"
-        sh "python ./src/tmp.py"
+        sh "python ./src/main_wrapper.py"
       }
     }
     stage('Build Docker image') {
